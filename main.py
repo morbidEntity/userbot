@@ -1,4 +1,3 @@
-from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
 from modules.commands import alive, abuse, time, define, automate
