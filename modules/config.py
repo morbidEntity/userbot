@@ -1,0 +1,5 @@
+API_ID = 27056999
+API_HASH = '50f9e44c9ab978017476ba5237546d80'
+SESSION = '1BVtsOLYBu7StjDuRh0TvKQJrUDmQB_wqVxOG0e3IyNXqlZyoIaJwU0k66doHWL436yRzlhQs00cfOdKgEbXGlfXUu5ADj51hPlKXYsS5Y-12l7sPOfubs6wjzZHy3WL-W1TLpItW7eilprsgnTB2IoMS8K-cke9GCmGGjjzomQlHueooG6yGUJEhePN6aaofmZMjv_DAN_AX9EqZfbmhlV0slDyudJBl7XjD4lszysXfS4Pi8eHlGUWu_dKakwQDaBBLD2v1ire00hZ3NhOUk8e1fWGu05WdRwM0yNBpgrfryoiT42_JFZFOnEUhMvx6mEQn-15hrLjAqtr5e_By4E6y26ZdOwY='
+ALIVE_IMAGE_PATH = '/storage/emulated/0/Download/alive_image.jpg'
+ABUSE_IMAGE_PATH = '/storage/emulated/0/Download/say.jpeg'
