@@ -11,6 +11,8 @@ def calculate_uptime():
     minutes, seconds = divmod(uptime % 3600, 60)
     return f"{int(days)}d {int(hours)}h {int(minutes)}m {int(seconds)}s"
 
+ALIVE_IMAGE_URL='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRizqjVi7XCW1aU55tikGRp8RO0pLY18FHRLJb5vJdrdg&s'
+
 def setup(client):
     @client.on(events.NewMessage(pattern=r"\.alive"))
     async def handle_alive(event):
@@ -25,6 +27,6 @@ def setup(client):
                 f"Messages Sent: {message_count}\n"
                 f"Uptime: {calculate_uptime()}"
             )
-            await event.reply(response, file=config.ALIVE_IMAGE_URL)
+            await event.reply(response, file=ALIVE_IMAGE_URL)
         except Exception as e:
             logging.logger.error(f"Error in .alive command: {e}")
