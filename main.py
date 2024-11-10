@@ -1,6 +1,6 @@
 from telethon import TelegramClient
 from modules import config, logging
-from modules.commands import alive, abuse
+from modules.commands import alive, abuse, time, define, automate
 import asyncio
 
 client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
@@ -8,6 +8,9 @@ client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
 # Set up commands
 alive.setup(client)
 abuse.setup(client)
+time.setup(client)
+define.setup(client)
+automate.setup(client)
 
 async def main():
     async with client:
