@@ -1,26 +1,53 @@
+# Command to automate message sending at a specified time
+
 import asyncio
-from datetime import datetime
-from telethon import TelegramClient
+from telethon import events
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import datetime
+from modules import logging
 
-# Function to schedule a message to be sent at the specified time
-async def automate_message(client, message, time_str, target):
-    # Parse the time string to a datetime object
-    target_time = datetime.strptime(time_str, "%I:%M%p").replace(year=datetime.now().year, month=datetime.now().month, day=datetime.now().day)
+# Set up the scheduler
+scheduler = AsyncIOScheduler()
 
-    # Check if the time is already passed today, if so, set it for tomorrow
-    if target_time < datetime.now():
-        target_time = target_time.replace(day=datetime.now().day + 1)
+async def send_message_at_scheduled_time(message, group_or_bot, scheduled_time):
+    now = datetime.datetime.now()
+    delay = (scheduled_time - now).total_seconds()
 
-    # Calculate the delay until the target time
-    delay = (target_time - datetime.now()).total_seconds()
+    if delay < 0:
+        logging.logger.warning("Scheduled time is in the past. Unable to send message.")
+        return
 
-    await asyncio.sleep(delay)  # Wait until the scheduled time
+    await asyncio.sleep(delay)
     try:
-        if target.startswith("@"):
-            # Send the message to a group or channel
-            await client.send_message(target, message)
-        else:
-            # Send the message to a bot
-            await client.send_message(target, message)
+        await client.send_message(group_or_bot, message)
+        logging.logger.info(f"Message sent to {group_or_bot} at {scheduled_time.strftime('%H:%M')}")
     except Exception as e:
-        print(f"Error sending automated message: {e}")
+        logging.logger.error(f"Error sending message: {e}")
+
+def setup(client):
+    @client.on(events.NewMessage(pattern=r"\.automate\s+(\S+)\s+(\S+)\s+(@\S+)"))
+    async def handle_automate_command(event):
+        try:
+            message = event.pattern_match.group(1)
+            scheduled_time_str = event.pattern_match.group(2)
+            group_or_bot = event.pattern_match.group(3)
+
+            try:
+                scheduled_time = datetime.datetime.strptime(scheduled_time_str, "%I:%M%p")
+                now = datetime.datetime.now()
+                scheduled_time = scheduled_time.replace(year=now.year, month=now.month, day=now.day)
+
+                if scheduled_time < now:
+                    scheduled_time += datetime.timedelta(days=1)
+            except ValueError:
+                await event.reply("Invalid time format. Please use 12-hour format (e.g., 12:00pm).")
+                return
+
+            scheduler.add_job(send_message_at_scheduled_time, 'date', run_date=scheduled_time, args=[message, group_or_bot, scheduled_time])
+            scheduler.start()
+
+            await event.reply(f"Message scheduled to be sent to {group_or_bot} at {scheduled_time.strftime('%I:%M%p')}")
+            logging.logger.info(f"Automated message scheduled: {message} at {scheduled_time.strftime('%I:%M%p')}")
+        except Exception as e:
+            logging.logger.error(f"Error in .automate command: {e}")
+            await event.reply("An error occurred while processing the command.")
