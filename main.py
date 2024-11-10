@@ -1,7 +1,7 @@
 from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
-from modules.commands import alive, abuse, time, define, automate, flirt, quote
+from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke
 import asyncio
 
 client = TelegramClient(StringSession(config.SESSION), config.API_ID, config.API_HASH)
@@ -14,6 +14,7 @@ define.setup(client)
 automate.setup(client)
 flirt.setup(client)
 quote.setup(client)
+joke.setup(client)
 
 async def main():
     async with client:
