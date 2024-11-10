@@ -1,3 +1,4 @@
+from telethon.sessions import StringSession
 API_ID = 27056999
 API_HASH = '50f9e44c9ab978017476ba5237546d80'
 SESSION = StringSession()
