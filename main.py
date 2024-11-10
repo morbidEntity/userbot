@@ -3,7 +3,7 @@ from modules import config, logging
 from modules.commands import alive, abuse, time, define, automate
 import asyncio
 
-client = TelegramClient(StringSession(config.API_ID, config.API_HASH)
+client = TelegramClient(StringSession(config.SESSION), config.API_ID, config.API_HASH)
 
 # Set up commands
 alive.setup(client)
