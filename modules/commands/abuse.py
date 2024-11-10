@@ -1,5 +1,6 @@
 from telethon import events
 from modules import config, logging
+
 ABUSE_IMAGE_URL='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaxicqMk6tjqJYHBaSWY0tEeMJBK_1O4Fra0Y4nNsfbA&s'
 
 def setup(client):
