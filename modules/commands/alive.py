@@ -25,6 +25,6 @@ def setup(client):
                 f"Messages Sent: {message_count}\n"
                 f"Uptime: {calculate_uptime()}"
             )
-            await event.reply(response, file=config.ALIVE_IMAGE_PATH)
+            await event.reply(response, file=config.ALIVE_IMAGE_URL)
         except Exception as e:
             logging.logger.error(f"Error in .alive command: {e}")
