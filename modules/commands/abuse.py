@@ -7,6 +7,6 @@ def setup(client):
         try:
             name = event.pattern_match.group(1)
             response = f"{name} teri maa ki chut!! 1,2,3,4 {name} ki gand maaro yar!"
-            await event.reply(response, file=config.ABUSE_IMAGE_PATH)
+            await event.reply(response, file=config.ABUSE_IMAGE_URL)
         except Exception as e:
             logging.logger.error(f"Error in .abuse command: {e}")
