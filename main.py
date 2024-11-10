@@ -1,12 +1,18 @@
-from bot import client
-from bot.commands import alive, abuse
-from bot.logging import logger
+from telethon import TelegramClient
+from modules import config, logging
+from modules.commands import alive, abuse
+import asyncio
+
+client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
+
+# Set up commands
+alive.setup(client)
+abuse.setup(client)
 
 async def main():
     async with client:
-        logger.info("Bot started successfully.")
+        logging.logger.info("Bot is running...")
         await client.run_until_disconnected()
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
