@@ -3,7 +3,7 @@ from pytz import timezone
 from telethon import events
 
 async def time_command(event):
-    # This command responds with the current time in IST
+    # Set timezone to IST
     ist_timezone = timezone("Asia/Kolkata")
     current_time = datetime.now(ist_timezone).strftime("%H:%M:%S")
     await event.respond(f"The current time (IST) is {current_time}")
