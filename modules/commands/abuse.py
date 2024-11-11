@@ -19,10 +19,11 @@ def setup(client):
                 # If the sender is not you, reply with "muh me lega"
                 response = "Muh me lega"
             
-            # Send the response along with the image if possible
-            await event.reply(response, file=ABUSE_IMAGE_URL)  # You can also use event.respond
+            # Send the response without an image to test
+            await event.reply(response)  # Temporarily removed file=ABUSE_IMAGE_URL
             
         except Exception as e:
+            # Log error or print if logging isn't set up
             if hasattr(logging, 'logger'):
                 logging.logger.error(f"Error in .abuse command: {e}")
             else:
