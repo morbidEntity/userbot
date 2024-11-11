@@ -1,7 +1,6 @@
 from telethon import events
 from modules import config, logging
 
-YOUR_USER_ID = 6790833554  # Replace with your actual Telegram user ID
 ABUSE_IMAGE_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaxicqMk6tjqJYHBaSWY0tEeMJBK_1O4Fra0Y4nNsfbA&s'
 
 def setup(client):
@@ -11,21 +10,14 @@ def setup(client):
             # Extract the name from the message
             name = event.pattern_match.group(1)
             
-            # Check if the bot is in a private chat or group
-            if event.is_private and event.sender_id == YOUR_USER_ID:
-                # Abuse response for private chat when sender is you
-                response = f"{name} teri maa ki chut!! 1,2,3,4 {name} ki gand maaro yar!"
-            elif not event.is_private and event.sender_id == YOUR_USER_ID:
-                # Abuse response for group chat when sender is you
-                response = f"{name} randichoda !! "
-            else:
-                # If the sender is not you, reply with "muh me lega"
-                response = "Muh me lega"
+            # Create an abuse message for the mentioned person
+            response = f"{name} randichoda !!"
             
-            # Send the response
+            # Send the response with the abuse image
             await event.reply(response, file=ABUSE_IMAGE_URL)
             
         except Exception as e:
+            # Log the error for debugging
             if hasattr(logging, 'logger'):
                 logging.logger.error(f"Error in .abuse command: {e}")
             else:
