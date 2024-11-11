@@ -14,7 +14,7 @@ def setup(client):
             # Check if the bot is in a private chat or group
             if event.is_private and event.sender_id == YOUR_USER_ID:
                 # Abuse response for private chat when sender is you
-                response = f"{name} teri maa ki chut!! 1,2,3,4 {name} ki gand maaro yar!"
+                response = f"{name} randichoda"
             elif not event.is_private and event.sender_id == YOUR_USER_ID:
                 # Abuse response for group chat when sender is you
                 response = f"{name} randichoda"
