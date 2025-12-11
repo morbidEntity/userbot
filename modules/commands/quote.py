@@ -1,20 +1,25 @@
-import requests
+import aiohttp
+import logging
 from telethon import events
 
 async def quote_command(event):
     try:
-        response = requests.get("https://api.quotable.io/random")
-        data = response.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://api.quotable.io/random") as response:
+                if response.status == 200:
+                    data = await response.json()
+                    quote = data.get('content', None)
+                    author = data.get('author', 'Unknown')
 
-        if response.status_code == 200 and 'content' in data:
-            quote = data['content']
-            author = data['author']
-            await event.respond(f"\"{quote}\" - {author}")
-        else:
-            await event.respond("Couldn't fetch a quote right now. Try again later!")
+                    if quote:
+                        await event.respond(f"\"{quote}\" - {author}")
+                        return
+
+        # fallback
+        await event.respond("Couldn't fetch a quote right now, bro 😭")
     except Exception as e:
-        await event.respond("An error occurred while fetching a quote.")
-        logging.logger.error(f"Error in .quote command: {e}")
+        logging.error(f"Error in .quote command: {e}")
+        await event.respond("Bro something exploded while fetching a quote 💀")
 
 def setup(client):
     client.add_event_handler(quote_command, events.NewMessage(pattern=r"\.quote"))
