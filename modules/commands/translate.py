@@ -1,4 +1,5 @@
-from telethon import events from googletrans import Translator
+from telethon import events 
+from googletrans import Translator
 
 translator = Translator()
 
