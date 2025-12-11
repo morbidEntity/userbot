@@ -14,10 +14,10 @@ def setup(client):
             # Check if the bot is in a private chat or group
             if event.is_private and event.sender_id == YOUR_USER_ID:
                 # Abuse response for private chat when sender is you
-                response = f"{name} randichoda"
+                response = f"{name} Teri maa ki chut Madharchod bahen ke lude teri maa chunda saale bhosdivaale bhn chod teri maa kothe pe chudvati hai 2 rupye me Madharchod tera papa hu mai bhn chod"
             elif not event.is_private and event.sender_id == YOUR_USER_ID:
                 # Abuse response for group chat when sender is you
-                response = f"{name} randichoda"
+                response = f"{name} Teri maa ki chut Madharchod bahen ke lude teri maa chunda saale bhosdivaale bhn chod teri maa kothe pe chudvati hai 2 rupye me Madharchod tera papa hu mai bhn chod"
             else:
                 # If the sender is not you, reply with "muh me lega"
                 response = "Muh me lega"
