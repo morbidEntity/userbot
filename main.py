@@ -1,7 +1,7 @@
 from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
-from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo
+from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo, translate
 import asyncio
 from flask import Flask
 import os
@@ -32,6 +32,7 @@ joke.setup(client)
 fact.setup(client)
 afk.setup(client)
 owo.setup(client)
+translate.setup(client)
 
 # ----------------------------------------------
 # 4. ASYNC BOT EXECUTION FUNCTION (Simplified for better startup)
