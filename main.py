@@ -1,11 +1,11 @@
 from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
-from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk
+from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo
 import asyncio
 from flask import Flask
 import os
-import threading # <-- NEW IMPORT
+import threading 
 
 # ----------------------------------------------
 # 1. FLASK SETUP & PORT BINDING
@@ -31,6 +31,7 @@ quote.setup(client)
 joke.setup(client)
 fact.setup(client)
 afk.setup(client)
+owo.setup(client)
 
 # ----------------------------------------------
 # 4. ASYNC BOT EXECUTION FUNCTION (Simplified for better startup)
