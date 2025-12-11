@@ -146,15 +146,15 @@ async def afk_listener(event, client):
 
 
 # --- Setup Function (Hooking into main.py) ---
-
 def setup(client):
     # Command to set AFK state
     client.add_event_handler(lambda e: afk_command(e, client), events.NewMessage(pattern=r".afk(.*)", outgoing=True))
     
-    # Listener for all messages
-    client.add_event_handler(lambda e: afk_listener(e, client), events.NewMessage(func=lambda e: not e.out))
+    # Listen for INCOMING messages (others texting you)
+    client.add_event_handler(lambda e: afk_listener(e, client), events.NewMessage(incoming=True))
+    
+    # Listen for OUTGOING messages (you texting)
+    client.add_event_handler(lambda e: afk_listener(e, client), events.NewMessage(outgoing=True))
     
     # Initialize the AFK state file if it doesn't exist
     load_afk_state()
-
-
