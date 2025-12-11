@@ -4,6 +4,7 @@ from modules import config, logging
 from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk
 import asyncio
 from flask import Flask
+import os
 
 app = Flask(__name__)
 # Get the port from environment variable, default to 5000 if not set
