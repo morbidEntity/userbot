@@ -1,7 +1,8 @@
 from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
-from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo, translate
+from modules.commands import alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo
+from modules.commands import translate
 import asyncio
 from flask import Flask
 import os
