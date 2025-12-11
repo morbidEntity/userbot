@@ -4,3 +4,4 @@ apscheduler
 pytz
 aiohttp
 flask
+googletrans==4.0.0-rc1
