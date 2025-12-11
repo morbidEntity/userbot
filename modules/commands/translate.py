@@ -1,7 +1,5 @@
 from telethon import events
-from googletrans import Translator
-
-translator = Translator()
+from deep_translator import GoogleTranslator
 
 # Mapping common language names to Google Translate codes
 LANG_MAP = {
@@ -46,8 +44,10 @@ async def translate_command(event):
             await event.respond("The replied message has no text to translate 😢")
             return
 
-        translated = translator.translate(text_to_translate, dest=target_lang)
-        await event.respond(f"**Translated ({translated.src} -> {lang_name}):**\n{translated.text}")
+        # Use deep-translator for translation
+        translated_text = GoogleTranslator(source='auto', target=target_lang).translate(text_to_translate)
+
+        await event.respond(f"**Translated ({lang_name}):**\n{translated_text}")
 
     except Exception as e:
         await event.respond(f"Error while translating: {e}")
