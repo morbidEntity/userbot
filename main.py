@@ -28,7 +28,7 @@ owo.setup(client)
 translate.setup(client)
 youtube.setup(client)
 google.setup(client)
-tta.setup(client)
+tts.setup(client)
 
 async def run_bot():
     await client.start()
