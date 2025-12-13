@@ -1,11 +1,17 @@
 from telethon import events
 import yt_dlp
 import asyncio
+import os
+
+# 🔥 Nuke Render proxy env vars
+for var in ["HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"]:
+    os.environ.pop(var, None)
 
 YTDLP_OPTS = {
     "quiet": True,
     "skip_download": True,
     "extract_flat": True,
+    "proxy": None
 }
 
 async def youtube_command(event):
@@ -17,7 +23,6 @@ async def youtube_command(event):
             return
 
         query = args[1]
-
         loop = asyncio.get_event_loop()
 
         def search():
@@ -32,20 +37,20 @@ async def youtube_command(event):
             return
 
         msg = "**YouTube Search Results:**\n\n"
-        for i, video in enumerate(results, start=1):
-            title = video.get("title")
-            channel = video.get("uploader")
-            link = f"https://youtube.com/watch?v={video.get('id')}"
+        for i, v in enumerate(results, 1):
+            title = v.get("title", "Unknown")
+            channel = v.get("uploader", "Unknown")
+            link = f"https://youtube.com/watch?v={v.get('id')}"
             msg += f"{i}. **{title}**\n👤 {channel}\n🔗 {link}\n\n"
 
         await event.respond(msg)
 
     except Exception as e:
         await event.respond(f"Something broke 💀\n`{e}`")
-        print(f"YouTube command error: {e}")
+        print("YT ERROR:", e)
 
 def setup(client):
     client.add_event_handler(
         youtube_command,
         events.NewMessage(pattern=r"\.(yt|youtube)")
-            )
+        )
