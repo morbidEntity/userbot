@@ -6,44 +6,50 @@ import os
 LANGUAGES = {
     "English": "en",
     "Hindi": "hi",
-    "Japanese": "ja",
     "Spanish": "es",
     "French": "fr",
+    "Japanese": "ja",
     "German": "de",
-    "Chinese": "zh-cn",
-    "Korean": "ko"
+    "Italian": "it",
+    "Korean": "ko",
 }
 
+# Store text temporarily until user selects a language
+pending_tts = {}
+
 async def tts_command(event):
-    if not event.is_reply:
-        await event.respond("Please reply to a message to convert it to speech 😅")
+    args = event.text.split(maxsplit=1)
+    if len(args) < 2:
+        await event.respond("Please provide text to convert to speech. Example: `.tts Hello world`")
         return
 
-    reply_msg = await event.get_reply_message()
-    text = reply_msg.text
-    if not text:
-        await event.respond("The replied message has no text 😢")
+    text = args[1]
+    # Save text using user ID as key
+    pending_tts[event.sender_id] = text
+
+    buttons = [Button.inline(name, data=name) for name in LANGUAGES.keys()]
+    # Send buttons in a 2-column layout
+    keyboard = [buttons[i:i+2] for i in range(0, len(buttons), 2)]
+    await event.respond("Choose a language for TTS:", buttons=keyboard)
+
+async def tts_button_handler(event):
+    lang_name = event.data.decode("utf-8")
+    user_id = event.sender_id
+
+    if user_id not in pending_tts:
+        await event.respond("No text found. Please use `.tts <text>` first.")
         return
 
-    buttons = [
-        [Button.inline(name, f"tts_{code}") for name, code in LANGUAGES.items()]
-    ]
-    await event.respond("Select language for TTS:", buttons=buttons)
+    text = pending_tts.pop(user_id)
+    lang_code = LANGUAGES.get(lang_name, "en")
 
-async def button_handler(event):
-    if event.data.decode().startswith("tts_"):
-        lang_code = event.data.decode().split("_")[1]
-        original_msg = await event.get_reply_message()
-        text = original_msg.text
-        try:
-            tts = gTTS(text=text, lang=lang_code)
-            file_path = f"tts_{event.sender_id}.mp3"
-            tts.save(file_path)
-            await event.respond(file=file_path)
-            os.remove(file_path)
-        except Exception as e:
-            await event.respond(f"Error generating TTS: {e}")
+    filename = f"/tmp/tts_{user_id}.mp3"
+    tts = gTTS(text, lang=lang_code)
+    tts.save(filename)
+
+    await event.respond(file=filename)
+    os.remove(filename)
 
 def setup(client):
     client.add_event_handler(tts_command, events.NewMessage(pattern=r"\.tts"))
-    client.add_event_handler(button_handler, events.CallbackQuery())
+    client.add_event_handler(tts_button_handler, events.CallbackQuery)
