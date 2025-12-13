@@ -1,8 +1,8 @@
 telethon
+yt-dlp
+aiohttp
 requests
 apscheduler
 pytz
-aiohttp
 flask
 deep-translator
-yt-dlp
