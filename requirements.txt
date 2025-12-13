@@ -5,4 +5,4 @@ pytz
 aiohttp
 flask
 deep-translator
-youtube-search-python
+yt-dlp
