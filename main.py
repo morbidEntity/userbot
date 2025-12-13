@@ -2,7 +2,7 @@ from telethon.sessions import StringSession
 from telethon import TelegramClient
 from modules import config, logging
 from modules.commands import (
-    alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo, translate, youtube, google 
+    alive, abuse, time, define, automate, flirt, quote, joke, fact, afk, owo, translate, youtube, google, tts 
 )
 import asyncio
 from flask import Flask
@@ -28,6 +28,7 @@ owo.setup(client)
 translate.setup(client)
 youtube.setup(client)
 google.setup(client)
+tta.setup(client)
 
 async def run_bot():
     await client.start()
